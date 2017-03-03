@@ -150,6 +150,10 @@ static CGSize const kDefaultDotSize = {8, 8};
         UIView *dot;
         if (i < self.dots.count) {
             dot = [self.dots objectAtIndex:i];
+        } else if([self.delegate respondsToSelector:@selector(TAPageControl:viewForPageAtIndex:)]) {
+            dot = [self.delegate TAPageControl:self viewForPageAtIndex:i];
+            [self addSubview:dot];
+            [self.dots addObject:dot];
         } else {
             dot = [self generateDotView];
         }
@@ -239,7 +243,12 @@ static CGSize const kDefaultDotSize = {8, 8};
  */
 - (void)changeActivity:(BOOL)active atIndex:(NSInteger)index
 {
-    if (self.dotViewClass) {
+    
+    if([self.delegate respondsToSelector:@selector(TAPageControl:willChangeActivityState:atIndex:)]) {
+        [self.delegate TAPageControl:self willChangeActivityState:active atIndex:index];
+    }
+    
+    if (self.dotViewClass || ([self.delegate respondsToSelector:@selector(TAPageControl:viewForPageAtIndex:)])) {
         TAAbstractDotView *abstractDotView = (TAAbstractDotView *)[self.dots objectAtIndex:index];
         if ([abstractDotView respondsToSelector:@selector(changeActivityState:)]) {
             [abstractDotView changeActivityState:active];
@@ -357,6 +366,13 @@ static CGSize const kDefaultDotSize = {8, 8};
     }
     
     return _dotSize;
+}
+
+-(id)viewForPageAtIndex:(NSUInteger)index {
+    if(index >= [self.dots count]) {
+        return nil;
+    }
+    return [self.dots objectAtIndex:index];
 }
 
 @end

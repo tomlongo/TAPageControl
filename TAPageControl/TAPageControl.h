@@ -91,7 +91,7 @@
  *  @return The CGSize being the minimum size required.
  */
 - (CGSize)sizeForNumberOfPages:(NSInteger)pageCount;
-
+-(id)viewForPageAtIndex:(NSUInteger)index;
 
 @end
 
@@ -100,5 +100,7 @@
 
 @optional
 - (void)TAPageControl:(TAPageControl *)pageControl didSelectPageAtIndex:(NSInteger)index;
+- (void)TAPageControl:(TAPageControl *)pageControl willChangeActivityState:(BOOL)state atIndex:(NSInteger)index;
+- (id)TAPageControl:(TAPageControl *)pageControl viewForPageAtIndex:(NSInteger)index;
 
 @end

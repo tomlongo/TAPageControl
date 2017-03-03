@@ -114,9 +114,18 @@
     [self.scrollView2 scrollRectToVisible:CGRectMake(CGRectGetWidth(self.scrollView2.frame) * index, 0, CGRectGetWidth(self.scrollView2.frame), CGRectGetHeight(self.scrollView2.frame)) animated:YES];
 }
 
+- (id)TAPageControl:(TAPageControl *)pageControl viewForPageAtIndex:(NSInteger)index {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    view.backgroundColor = [UIColor redColor];
+    return view;
+}
+
+- (void)TAPageControl:(TAPageControl *)pageControl willChangeActivityState:(BOOL)state atIndex:(NSInteger)index {
+    UIView *view = [pageControl viewForPageAtIndex:index];
+    view.backgroundColor = (state) ? [UIColor greenColor] : [UIColor redColor];
+}
 
 #pragma mark - Utils
-
 
 - (void)setupScrollViewImages
 {
