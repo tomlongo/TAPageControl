@@ -152,6 +152,7 @@ static CGSize const kDefaultDotSize = {8, 8};
             dot = [self.dots objectAtIndex:i];
         } else if([self.delegate respondsToSelector:@selector(TAPageControl:viewForPageAtIndex:)]) {
             dot = [self.delegate TAPageControl:self viewForPageAtIndex:i];
+            _dotSize = dot.frame.size;
             [self addSubview:dot];
             [self.dots addObject:dot];
         } else {
